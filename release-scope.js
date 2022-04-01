@@ -47,12 +47,15 @@ ${releaseBranchHistory.slice(0, 30)}`)
     const messagesNotInReleaseBranch = masterCommitMessages.filter(({ message }) => !releasedCommitMessagesSet.has(message))
     console.log('unreleased changes:')
     console.log(messagesNotInReleaseBranch.map(({message, ind}) => `${masterBranchHistory[ind]} ${message}`).join('\n'))
-    console.log('\njira tickets:')
-    console.log(messagesNotInReleaseBranch
+    const jiraNumbers = messagesNotInReleaseBranch
         .filter(x => x.message.includes(':'))
-        .map(x => `https://worldremit.atlassian.net/browse/${x.message.split(':')[0]}`)
-        .join('\n')
-    )
+        .map(x => x.message.split(':')[0]);
+    const uniqJiraNumbers = new Set(jiraNumbers);
+    const jiraTickets = [...uniqJiraNumbers]
+        .sort()
+        .map(x => `https://worldremit.atlassian.net/browse/${x}`);
+    console.log('\njira tickets:')
+    console.log(jiraTickets);
 }
 
 
