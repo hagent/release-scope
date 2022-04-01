@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fetch = require('isomorphic-fetch')
 const { execSync } = require('child_process');
 
