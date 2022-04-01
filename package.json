@@ -1,9 +1,10 @@
 {
+    "name": "release-scope",
     "dependencies": {
       "isomorphic-fetch": "^3.0.0"
     },
     "bin": {
-      "release-scope": "release_scope.js"
+      "release-scope": "node release_scope.js"
     }
   }
   
