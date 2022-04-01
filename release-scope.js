@@ -22,8 +22,12 @@ function getCommitMessages(branch, fromIndex = 0) {
         .splice(fromIndex)
 }
 
+function getCurrentBranch() {
+    return execSync(`git rev-parse --abbrev-ref HEAD`);
+}
+
 async function main() {
-    const [, , releaseBranch = '', masterBranch = 'master'] = process.argv;
+    const [, , releaseBranch = getCurrentBranch(), masterBranch = 'master'] = process.argv;
     // const res = execSync(`git log ${} --format='%h %s %d '`, { encoding: 'utf-8' });
     execSync(`git fetch`)
     const releaseBranchHistory = getCommitHashes(releaseBranch);
@@ -35,7 +39,7 @@ async function main() {
         throw new Error(`release hash ${releaseHash} wasnt found in release branch logs, first 30:
 ${releaseBranchHistory.slice(0, 30)}`)
     }
-    console.log('releaseCommitIndex in release branch', releaseCommitIndex)
+    console.log('current release commit index in release branch', releaseCommitIndex)
     const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseCommitIndex));
     const masterCommitMessages = getCommitMessages(masterBranch)
         .map((message, ind) => ({ message, ind })); // + "ind" field to save original index
