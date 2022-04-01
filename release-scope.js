@@ -10,7 +10,7 @@ async function getReleaseHash() {
 
 function getCommitHashes(branch, fromIndex = 0) {
     const branchName = branch ? `origin/${branch}` : branch;
-    return execSync(`git log origin/${branchName} --format='%h'`, { encoding: 'utf-8' })
+    return execSync(`git log ${branchName} --format='%h'`, { encoding: 'utf-8' })
         .split('\n')
         .splice(fromIndex)
 }
