@@ -47,7 +47,11 @@ ${releaseBranchHistory.slice(0, 30)}`)
     console.log('unreleased changes:')
     console.log(messagesNotInReleaseBranch.map(x => x.message).join('\n'))
     console.log('\njira tickets:')
-    console.log(messagesNotInReleaseBranch.map(x => `https://worldremit.atlassian.net/browse/${x.message.split(':')[0]}`).join('\n'))
+    console.log(messagesNotInReleaseBranch
+        .filter(x => x.message.contains(':'))
+        .map(x => `https://worldremit.atlassian.net/browse/${x.message.split(':')[0]}`)
+        .join('\n')
+    )
 }
 
 
