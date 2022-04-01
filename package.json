@@ -8,7 +8,7 @@
         "isomorphic-fetch": "^3.0.0"
     },
     "bin": {
-        "release-scope": "node ./release-scope.js"
+        "release-scope": "release-scope.js"
     },
     "files": ["release-scope.js"]
 }
