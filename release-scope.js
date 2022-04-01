@@ -28,6 +28,7 @@ function getCurrentBranch() {
 
 async function main() {
     const [, , releaseBranch = getCurrentBranch(), masterBranch = 'master'] = process.argv;
+    console.log({releaseBranch})
     // const res = execSync(`git log ${} --format='%h %s %d '`, { encoding: 'utf-8' });
     execSync(`git fetch`)
     const releaseBranchHistory = getCommitHashes(releaseBranch);
