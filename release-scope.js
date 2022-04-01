@@ -23,7 +23,7 @@ function getCommitMessages(branch, fromIndex = 0) {
 }
 
 function getCurrentBranch() {
-    return execSync(`git rev-parse --abbrev-ref HEAD`);
+    return execSync(`git rev-parse --abbrev-ref HEAD`, { encoding: 'utf-8' });
 }
 
 async function main() {
