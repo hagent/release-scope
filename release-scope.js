@@ -35,13 +35,15 @@ async function main() {
         throw new Error(`release hash ${releaseHash} wasnt found in release branch logs, first 30:
 ${releaseBranchHistory.slice(0, 30)}`)
     }
-    console.log('releaseCommitIndex', releaseCommitIndex)
+    console.log('releaseCommitIndex in release branch', releaseCommitIndex)
     const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseCommitIndex));
     const masterCommitMessages = getCommitMessages(masterBranch)
         .map((message, ind) => ({ message, ind })); // + "ind" field to save original index
     const messagesNotInReleaseBranch = masterCommitMessages.filter(({ message }) => !releasedCommitMessagesSet.has(message))
     console.log('unreleased changes:')
     console.log(messagesNotInReleaseBranch.map(x => x.message).join('\n'))
+    console.log('unreleased changes:')
+    console.log(messagesNotInReleaseBranch.map(x => `https://worldremit.atlassian.net/browse/${x.message}`).join('\n'))
 }
 
 
