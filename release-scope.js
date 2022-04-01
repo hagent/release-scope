@@ -42,7 +42,7 @@ ${releaseBranchHistory.slice(0, 30)}`)
     const messagesNotInReleaseBranch = masterCommitMessages.filter(({ message }) => !releasedCommitMessagesSet.has(message))
     console.log('unreleased changes:')
     console.log(messagesNotInReleaseBranch.map(x => x.message).join('\n'))
-    console.log('unreleased changes:')
+    console.log('\njira tickets:')
     console.log(messagesNotInReleaseBranch.map(x => `https://worldremit.atlassian.net/browse/${x.message}`).join('\n'))
 }
 
