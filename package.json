@@ -9,5 +9,6 @@
     },
     "bin": {
         "release-scope": "node ./release-scope.js"
-    }
+    },
+    "files": ["release-scope.js"]
 }
