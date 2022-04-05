@@ -10,9 +10,9 @@ async function getReleaseHash() {
     return releaseHash.commit.substr(0, 9);
 }
 
-function execEcho(cmd) {
+function execEcho(cmd, options) {
     console.log(cmd);
-    return execSync(cmd);
+    return execSync(cmd, options);
 }
 
 function getCommitHashes(branch, fromHash = '') {
