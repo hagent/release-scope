@@ -19,14 +19,14 @@ function getCommitHashes(branch, fromIndex = 0) {
     const branchName = branch ? `origin/${branch}` : branch;
     return execEcho(`git log ${branchName} --format='%h'`, { encoding: 'utf-8' })
         .split('\n')
-        .split(fromIndex);
+        .splice(fromIndex);
 }
 
 function getCommitMessages(branch, fromIndex = 0) {
     const branchName = branch ? `origin/${branch}` : branch;
     return execEcho(`git log ${branchName} --format='%s'`, { encoding: 'utf-8' })
         .split('\n')
-        .split(fromIndex);
+        .splice(fromIndex);
 }
 
 function getCurrentBranch() {
