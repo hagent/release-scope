@@ -47,12 +47,12 @@ async function main() {
         throw new Error(`release hash ${releaseHash} wasnt found in release branch logs, first 30:
 ${releaseBranchHistory.slice(0, 30)}`)
     }
-    console.log('last released commit index in release branch', releaseCommitIndex, 'release commit itself', releaseHash)
+    console.log('Last released commit index in release branch:', releaseCommitIndex, 'Release commit itself:', releaseHash)
     const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseCommitIndex));
     const masterCommitMessages = getCommitMessages(masterBranch)
         .map((message, ind) => ({ message, ind })); // + "ind" field to save original index
     const messagesNotInReleaseBranch = masterCommitMessages.filter(({ message }) => !releasedCommitMessagesSet.has(message))
-    console.log('unreleased changes:')
+    console.log('\nUnreleased changes:')
     console.log(messagesNotInReleaseBranch.map(({ message, ind }) => `${masterBranchHistory[ind]} ${message}`).join('\n'))
     const jiraNumbers = messagesNotInReleaseBranch
         .filter(x => x.message.includes(':'))
