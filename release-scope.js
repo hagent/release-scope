@@ -61,7 +61,7 @@ ${releaseBranchHistory.slice(0, 30)}`)
     const jiraTickets = [...uniqJiraNumbers]
         .sort()
         .map(x => `https://worldremit.atlassian.net/browse/${x}`);
-    console.log('\njira tickets:')
+    console.log('\nJira tickets:')
     console.log(jiraTickets.join('\n'));
 }
 
