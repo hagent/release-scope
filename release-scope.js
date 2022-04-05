@@ -15,16 +15,18 @@ function execEcho(cmd, options) {
     return execSync(cmd, options);
 }
 
-function getCommitHashes(branch, fromHash = '') {
+function getCommitHashes(branch, fromIndex = 0) {
     const branchName = branch ? `origin/${branch}` : branch;
     return execEcho(`git log ${branchName} ${fromHash} --format='%h'`, { encoding: 'utf-8' })
-        .split('\n');
+        .split('\n')
+        .split(fromIndex);
 }
 
-function getCommitMessages(branch, fromHash = '') {
+function getCommitMessages(branch, fromIndex = 0) {
     const branchName = branch ? `origin/${branch}` : branch;
     return execEcho(`git log ${branchName} ${fromHash} --format='%s'`, { encoding: 'utf-8' })
-        .split('\n');
+        .split('\n')
+        .split(fromIndex);
 }
 
 function getCurrentBranch() {
@@ -46,7 +48,7 @@ async function main() {
 ${releaseBranchHistory.slice(0, 30)}`)
     }
     console.log('last released commit index in release branch', releaseCommitIndex, 'release commit itself', releaseHash)
-    const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseHash));
+    const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseCommitIndex));
     const masterCommitMessages = getCommitMessages(masterBranch)
         .map((message, ind) => ({ message, ind })); // + "ind" field to save original index
     const messagesNotInReleaseBranch = masterCommitMessages.filter(({ message }) => !releasedCommitMessagesSet.has(message))
