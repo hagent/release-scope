@@ -12,7 +12,7 @@ async function getReleaseHash() {
 
 function execEcho(cmd) {
     console.log(cmd);
-    execSync(cmd);
+    return execSync(cmd);
 }
 
 function getCommitHashes(branch, fromHash = '') {
