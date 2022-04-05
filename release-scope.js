@@ -51,9 +51,13 @@ ${releaseBranchHistory.slice(0, 30)}`)
     const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseCommitIndex));
     const masterCommitMessages = getCommitMessages(masterBranch)
         .map((message, ind) => ({ message, ind })); // + "ind" field to save original index
+    // search for the messages in master branch which weren't released (are not in release branch before released commit)
     const messagesNotInReleaseBranch = masterCommitMessages.filter(({ message }) => !releasedCommitMessagesSet.has(message))
-    console.log('\nUnreleased changes:')
-    console.log(messagesNotInReleaseBranch.map(({ message, ind }) => `${masterBranchHistory[ind]} ${message}`).join('\n'))
+    console.log(`\nUnreleased changes from ${masterBranch} branch:`)
+    console.log(messagesNotInReleaseBranch.map(({ message, ind }) => {
+        const hash = masterBranchHistory[ind];
+        return `${hash} ${message}`
+    }).join('\n'))
     const jiraNumbers = messagesNotInReleaseBranch
         .filter(x => x.message.includes(':'))
         .map(x => x.message.split(':')[0]);
@@ -64,6 +68,5 @@ ${releaseBranchHistory.slice(0, 30)}`)
     console.log('\nJira tickets:')
     console.log(jiraTickets.join('\n'));
 }
-
 
 main()
