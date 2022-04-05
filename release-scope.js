@@ -10,26 +10,31 @@ async function getReleaseHash() {
     return releaseHash.commit.substr(0, 9);
 }
 
+function execEcho(cmd) {
+    console.log(cmd);
+    execSync(cmd);
+}
+
 function getCommitHashes(branch, fromHash = '') {
     const branchName = branch ? `origin/${branch}` : branch;
-    return execSync(`git log ${branchName} ${fromHash} --format='%h'`, { encoding: 'utf-8' })
+    return execEcho(`git log ${branchName} ${fromHash} --format='%h'`, { encoding: 'utf-8' })
         .split('\n');
 }
 
 function getCommitMessages(branch, fromHash = '') {
     const branchName = branch ? `origin/${branch}` : branch;
-    return execSync(`git log ${branchName} ${fromHash} --format='%s'`, { encoding: 'utf-8' })
+    return execEcho(`git log ${branchName} ${fromHash} --format='%s'`, { encoding: 'utf-8' })
         .split('\n');
 }
 
 function getCurrentBranch() {
-    return execSync(`git rev-parse --abbrev-ref HEAD`, { encoding: 'utf-8' }).trim();
+    return execEcho(`git rev-parse --abbrev-ref HEAD`, { encoding: 'utf-8' }).trim();
 }
 
 async function main() {
     const [, , releaseBranch = getCurrentBranch(), masterBranch = 'master'] = process.argv;
 
-    execSync(`git fetch`);
+    execEcho(`git fetch`);
     const releaseBranchHistory = getCommitHashes(releaseBranch);
     const masterBranchHistory = getCommitHashes(masterBranch);
     const releaseHash = await getReleaseHash();
@@ -40,7 +45,7 @@ async function main() {
         throw new Error(`release hash ${releaseHash} wasnt found in release branch logs, first 30:
 ${releaseBranchHistory.slice(0, 30)}`)
     }
-    console.log('current release commit index in release branch', releaseCommitIndex, 'release commit itself', releaseHash)
+    console.log('last released commit index in release branch', releaseCommitIndex, 'release commit itself', releaseHash)
     const releasedCommitMessagesSet = new Set(getCommitMessages(releaseBranch, releaseHash));
     const masterCommitMessages = getCommitMessages(masterBranch)
         .map((message, ind) => ({ message, ind })); // + "ind" field to save original index
