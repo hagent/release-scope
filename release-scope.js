@@ -24,7 +24,7 @@ function getCommitHashes(branch, fromIndex = 0) {
 }
 
 function getCommitMessages(branch, fromIndex = 0) {
-    const branchName = branch ? `origin/${branch}` : branch;
+    const branchName = branch.startsWith('v') ? branch : `origin/${branch}`;
     return execEcho(`git log ${branchName} --format='%s'`, { encoding: 'utf-8' })
         .split('\n')
         .splice(fromIndex);
