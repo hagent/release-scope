@@ -16,7 +16,7 @@ function execEcho(cmd, options) {
 }
 
 function getCommitHashes(branch, fromIndex = 0) {
-    const branchName = branch ? `origin/${branch}` : branch;
+    const branchName = branch.startsWith('v') ? branch : `origin/${branch}`;
     return execEcho(`git log ${branchName} --format='%H'`, { encoding: 'utf-8' })
         .split('\n')
         .map(h => h.substr(0, 9))
